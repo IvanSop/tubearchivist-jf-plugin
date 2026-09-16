@@ -1,17 +1,19 @@
 ---
-name: "TubeArchivistMetadata"
-guid: "dc97d0c6-28b0-4242-afb4-5833ae1b3715"
-imageUrl: https://raw.githubusercontent.com/tubearchivist/tubearchivist-jf-plugin/master/images/logo.png
-version: "1.4.4.0"
+name: "TubeArchivistMetadataByIsop"
+guid: "ecf7cb0e-59d9-463c-84db-4a076c833014"
+imageUrl: https://raw.githubusercontent.com/IvanSop/tubearchivist-jf-plugin/master/images/logo.png
+version: "1.0.0.0"
 targetAbi: "10.11.0.0"
 framework: "net9.0"
 overview: "Metadata for your TubeArchivist library on Jellyfin"
 description: >
   TubeArchivistMetadata is a plugin that automatically manages
   metadata for videos downloaded with TubeArchivist from YouTube.
+
+  This is a fork of the original plugin by DarkFighterLuke.
 category: "Metadata"
-owner: "DarkFighterLuke"
+owner: "IvanSop"
 artifacts:
 - "Jellyfin.Plugin.TubeArchivistMetadata.dll"
 changelog: >
-  Handle TubeArchivist playlists pagination
+  Local metadata provider to get embedded TA metadata from video files.
