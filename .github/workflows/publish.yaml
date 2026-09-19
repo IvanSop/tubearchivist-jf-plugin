@@ -57,7 +57,9 @@ jobs:
           ARTIFACT: ${{ steps.jprm.outputs.artifact }}
           TAG: ${{ github.ref_name }}
         run: |
-          dotnet tool install --global jprm
+          python3 -m pip install --user --upgrade jprm
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          
           mkdir -p public
 
           jprm repo add public/manifest.json "$ARTIFACT" \
