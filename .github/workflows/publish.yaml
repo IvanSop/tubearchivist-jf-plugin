@@ -62,7 +62,7 @@ jobs:
           
           mkdir -p public
           
-          jprm repo init public/manifest.json
+          curl -s -f "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/manifest.json" -o public/manifest.json || jprm repo init public/manifest.json
           jprm repo add public/manifest.json "$ARTIFACT" \
             --url="https://github.com/${{ github.repository }}/releases/download/${TAG}/"
 
