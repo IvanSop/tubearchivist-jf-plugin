@@ -1,0 +1,75 @@
+name: 'Publish Plugin'
+
+on:
+  push:
+    tags:
+      - '*.*.*.*'  # Triggers on tags like 1.2.3.4
+      - 'v*.*.*.*' # Triggers on tags like v1.2.3.4
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x' # Set to your target .NET version
+
+      - name: Build Jellyfin Plugin with JPRM
+        uses: oddstr13/jellyfin-plugin-repository-manager@v1.1.1
+        id: jprm
+        with:
+          dotnet-target: 'net10.0'
+
+      - name: Generate Checksums
+        run: |
+          cd ${{ steps.jprm.outputs.artifact }}
+          for file in *.zip; do
+            md5sum "$file" > "${file}.md5"
+            sha256sum "$file" > "${file}.sha256"
+          done
+
+      - name: Upload Release Assets to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.jprm.outputs.artifact }}/*
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Generate Repository Manifest
+        run: |
+          # Install JPRM CLI tool
+          dotnet tool install --global jprm
+
+          # Create a directory for the web repo
+          mkdir -p public
+
+          # Build/Update manifest.json linking to your GitHub Release download URL
+          jprm repo add public/manifest.json ${{ steps.jprm.outputs.artifact }}/*.zip \
+            --url="https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/"
+
+      - name: Upload GitHub Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'public'
+
+  deploy-pages:
+    needs: build-and-publish
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

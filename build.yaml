@@ -1,8 +1,8 @@
 ---
 name: "TubeArchivistMetadataByIsop"
-guid: "ecf7cb0e-59d9-463c-84db-4a076c833014"
+guid: "4c32178b-ed20-4384-af7e-5c08ca59d710"
 imageUrl: https://raw.githubusercontent.com/IvanSop/tubearchivist-jf-plugin/master/images/logo.png
-version: "1.0.0.0"
+version: "2.0.0.0"
 targetAbi: "10.11.0.0"
 framework: "net9.0"
 overview: "Metadata for your TubeArchivist library on Jellyfin"
