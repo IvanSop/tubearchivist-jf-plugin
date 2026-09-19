@@ -61,7 +61,8 @@ jobs:
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
           
           mkdir -p public
-
+          
+          jprm repo init public/manifest.json
           jprm repo add public/manifest.json "$ARTIFACT" \
             --url="https://github.com/${{ github.repository }}/releases/download/${TAG}/"
 
