@@ -68,9 +68,9 @@ namespace Jellyfin.Plugin.TubeArchivistMetadata
             _userDataManager = userDataManager;
             userDataManager.UserDataSaved += OnWatchedStatusChange;
 
-            logger.LogInformation("{Message}", "Collection display name: " + Instance?.Configuration.CollectionTitle);
-            logger.LogInformation("{Message}", "TubeArchivist API URL: " + Instance?.Configuration.TubeArchivistUrl);
-            logger.LogInformation("{Message}", "Pinging TubeArchivist API...");
+            logger.LogInformation("Collection display name: {Title}", Instance?.Configuration.CollectionTitle);
+            logger.LogInformation("TubeArchivist API URL {Url}", Instance?.Configuration.TubeArchivistUrl);
+            logger.LogInformation("Pinging TubeArchivist API...");
         }
 
         /// <inheritdoc />

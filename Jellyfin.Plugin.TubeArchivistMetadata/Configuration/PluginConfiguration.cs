@@ -74,7 +74,7 @@ namespace Jellyfin.Plugin.TubeArchivistMetadata.Configuration
                 }
                 else
                 {
-                    _logger.LogInformation("{Message}", "Given TubeArchivist URL contains no schema. Adding http://...");
+                    _logger.LogInformation("Given TubeArchivist URL contains no schema. Adding http://...");
                     _tubeArchivistUrl = Utils.SanitizeUrl("http://" + value);
                 }
 
@@ -147,14 +147,15 @@ namespace Jellyfin.Plugin.TubeArchivistMetadata.Configuration
         {
             get
             {
-                _logger.LogInformation("JFUsernamesTo configured: {Message}", string.Join(", ", _jfUsernamesTo));
-                return string.Join(", ", _jfUsernamesTo);
+                var jfUsernamesTo = string.Join(", ", this._jfUsernamesTo);
+                this._logger.LogInformation("JFUsernamesTo configured: {Message}", jfUsernamesTo);
+                return jfUsernamesTo;
             }
 
             set
             {
                 // Clear existing usernames
-                _jfUsernamesTo.Clear();
+                this._jfUsernamesTo.Clear();
 
                 // Split by comma, then trim each part to remove leading/trailing spaces
                 foreach (var username in value.Split(','))
@@ -162,11 +163,12 @@ namespace Jellyfin.Plugin.TubeArchivistMetadata.Configuration
                     var trimmedUsername = username.Trim();
                     if (!string.IsNullOrEmpty(trimmedUsername))
                     {
-                        _jfUsernamesTo.Add(trimmedUsername);
+                        this._jfUsernamesTo.Add(trimmedUsername);
                     }
                 }
 
-                _logger.LogInformation("Set JFUsernamesTo to: {Message}", string.Join(", ", _jfUsernamesTo));
+                var joinedUsernameTo = string.Join(", ", _jfUsernamesTo);
+                this._logger.LogInformation("Set JFUsernamesTo to: {Message}", joinedUsernameTo);
             }
         }
 
